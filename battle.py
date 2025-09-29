@@ -5,7 +5,6 @@ from characters import Boss
 
 
 class TurnOrder:
-    """Итератор для определения порядка ходов"""
 
     def __init__(self, characters):
         self.characters = sorted(characters, key=lambda x: x.agility, reverse=True)
@@ -25,7 +24,6 @@ class TurnOrder:
 
 
 class Battle(LoggerMixin):
-    """Класс управления боем"""
 
     def __init__(self, party, boss, seed=None):
         super().__init__()
@@ -49,7 +47,6 @@ class Battle(LoggerMixin):
         self.declare_winner()
 
     def execute_round(self):
-        # Создаем порядок ходов
         all_characters = [c for c in self.party if c.is_alive] + [self.boss]
         self.turn_order = TurnOrder(all_characters)
 
@@ -60,17 +57,15 @@ class Battle(LoggerMixin):
             self.add_log(f"\n--- Ход {character.name} ---")
             character.update_effects()
 
-            if isinstance(character, Boss):  # Теперь Boss будет определен
-                # Босс атакует случайного живого персонажа
+            if isinstance(character, Boss):
                 alive_party = [p for p in self.party if p.is_alive]
                 if alive_party:
                     target = random.choice(alive_party)
-                    if random.random() < 0.7:  # 70% шанс использовать навык
+                    if random.random() < 0.7:
                         character.use_skill(target)
                     else:
                         character.basic_attack(target)
             else:
-                # Игрок выбирает действие
                 self.player_turn(character)
 
             if self.is_battle_over():
@@ -80,7 +75,6 @@ class Battle(LoggerMixin):
         self.add_log(f"1. Базовая атака")
         self.add_log(f"2. Использовать навык (MP: {character.mp})")
 
-        # Для простоты AI выбирает случайное действие
         choice = random.randint(1, 2)
 
         if choice == 1 or character.mp < 10:
@@ -100,7 +94,6 @@ class Battle(LoggerMixin):
             self.add_log("💀 ПОРАЖЕНИЕ! Урсула победила русалочек!")
 
     def save_state(self, filename):
-        """Сохранение состояния боя в JSON"""
         state = {
             'round': self.round,
             'party': [char.to_dict() for char in self.party],

@@ -17,11 +17,9 @@ def main():
     print("🐠 МИНИ-ИГРА «РУСАЛОЧКИ ПРОТИВ УРСУЛЫ» 🐠")
     print("=" * 50)
 
-    # Создание отряда и босса
     party = create_party()
     boss = Boss("Урсула", 10)
 
-    # Вывод информации о команде
     print("\nВаш отряд:")
     for i, mermaid in enumerate(party, 1):
         print(f"{i}. {mermaid}")
@@ -37,7 +35,6 @@ def main():
     try:
         battle.start_battle()
 
-        # Сохранение результатов
         battle.save_state("battle_result.json")
         print(f"\nРезультаты боя сохранены в battle_result.json")
 

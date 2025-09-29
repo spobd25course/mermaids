@@ -2,7 +2,6 @@ import unittest
 import sys
 import os
 
-# Добавляем текущую директорию в путь для импорта
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from characters import Warrior, Mage, Healer, Boss
@@ -17,7 +16,7 @@ class TestBattle(unittest.TestCase):
         self.mage = Mage("Тест-Маг")
         self.healer = Healer("Тест-Лекарь")
         self.boss = Boss("Тест-Босс")
-        self.boss.hp = 50  # Уменьшаем HP для тестов
+        self.boss.hp = 50
 
     def test_character_creation(self):
         self.assertEqual(self.warrior.name, "Тест-Воин")
@@ -37,7 +36,6 @@ class TestBattle(unittest.TestCase):
         self.assertLess(self.mage.mp, initial_mp)
 
     def test_healer_skill(self):
-        # Проверяем лечение
         injured_warrior = Warrior("Раненый воин")
         injured_warrior.hp = 50  # Раненый персонаж
         initial_hp = injured_warrior.hp
@@ -77,7 +75,6 @@ class TestBattle(unittest.TestCase):
         self.assertEqual(battle.boss.name, "Тест-Босс")
 
     def test_turn_order(self):
-        # Создаем персонажей с разной ловкостью
         fast_warrior = Warrior("Быстрый воин")
         fast_warrior._agility = 20
 
@@ -86,7 +83,6 @@ class TestBattle(unittest.TestCase):
 
         characters = [slow_mage, fast_warrior]
 
-        # Должны отсортироваться по убыванию ловкости
         from battle import TurnOrder
         turn_order = TurnOrder(characters)
         ordered = list(turn_order)

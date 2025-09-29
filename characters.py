@@ -167,7 +167,6 @@ class Mage(Character, CritMixin, SilenceMixin):
         self.mp -= 25
         self.add_log(f"{self.name} использует ВОДЯНОЙ ВИХРЬ!")
 
-        # Наносит урон и накладывает яд
         damage = self.intelligence * 1.5
         crit_damage = self.calculate_crit(damage, 0.15)
         target.take_damage(crit_damage)
@@ -215,11 +214,10 @@ class Healer(Character, SilenceMixin):
         heal_amount = self.intelligence * 2 + self.level * 3
         actual_heal = target.heal(heal_amount)
 
-        # Накладывает регенерацию
         regen = Regeneration(duration=2, heal_amount=10)
         target.add_effect(regen)
 
-        return -actual_heal  # Отрицательное значение для обозначения лечения
+        return -actual_heal
 
 
 class BossStrategy(ABC):
@@ -233,7 +231,6 @@ class AggressiveStrategy(BossStrategy):
 
     def execute(self, boss, targets):
         boss.add_log("Урсула в ярости! Агрессивная атака!")
-        # Атакует самого слабого персонажа
         weakest = min(targets, key=lambda x: x.hp)
         damage = boss.strength * 2
         weakest.take_damage(damage)
@@ -247,7 +244,6 @@ class DefensiveStrategy(BossStrategy):
         heal_amount = boss.intelligence * 1.5
         actual_heal = boss.heal(heal_amount)
 
-        # Накладывает щит на себя
         shield = Shield(duration=2, shield_amount=30)
         boss.add_effect(shield)
 
@@ -258,7 +254,7 @@ class DebuffStrategy(BossStrategy):
 
     def execute(self, boss, targets):
         boss.add_log("Урсула насылает проклятие!")
-        for target in targets[:2]:  # Первым двум целям
+        for target in targets[:2]:
             if target.is_alive:
                 silence = Silence(duration=2)
                 target.add_effect(silence)
@@ -291,7 +287,6 @@ class Boss(Character, CritMixin):
         return crit_damage
 
     def use_skill(self, target):
-        # Босс меняет стратегию в зависимости от HP
         if self.hp < self.max_hp * 0.3:  # Меньше 30% HP
             self.current_strategy = 'aggressive'
         elif self.hp < self.max_hp * 0.6:  # Меньше 60% HP

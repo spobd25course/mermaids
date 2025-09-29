@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 
 
 class Effect(ABC):
-    """Абстрактный класс эффекта"""
 
     def __init__(self, name, duration):
         self.name = name
@@ -14,7 +13,6 @@ class Effect(ABC):
 
 
 class Poison(Effect):
-    """Эффект яда"""
 
     def __init__(self, duration=3, damage=5):
         super().__init__("Яд", duration)
@@ -26,7 +24,6 @@ class Poison(Effect):
 
 
 class Shield(Effect):
-    """Эффект щита"""
 
     def __init__(self, duration=2, shield_amount=20):
         super().__init__("Щит", duration)
@@ -39,7 +36,6 @@ class Shield(Effect):
 
 
 class Regeneration(Effect):
-    """Эффект регенерации"""
 
     def __init__(self, duration=2, heal_amount=10):
         super().__init__("Регенерация", duration)
@@ -51,16 +47,13 @@ class Regeneration(Effect):
 
 
 class Silence(Effect):
-    """Эффект немоты"""
 
     def __init__(self, duration=2):
         super().__init__("Немота", duration)
 
     def apply(self, target):
-        # Проверяем, есть ли у цели метод apply_silence
         if hasattr(target, 'apply_silence'):
             target.apply_silence(self.duration)
             target.add_log(f"{target.name} получила немоту на {self.duration} хода!")
         else:
-            # Если у персонажа нет метода apply_silence, просто логируем
             target.add_log(f"{target.name} сопротивляется эффекту немоты!")
