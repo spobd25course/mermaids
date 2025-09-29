@@ -47,6 +47,7 @@ class Regeneration(Effect):
 
     def apply(self, target):
         target.heal(self.heal_amount)
+        target.add_log(f"{target.name} восстанавливает {self.heal_amount} HP от регенерации")
 
 
 class Silence(Effect):
@@ -56,4 +57,10 @@ class Silence(Effect):
         super().__init__("Немота", duration)
 
     def apply(self, target):
-        target.apply_silence(self.duration)
+        # Проверяем, есть ли у цели метод apply_silence
+        if hasattr(target, 'apply_silence'):
+            target.apply_silence(self.duration)
+            target.add_log(f"{target.name} получила немоту на {self.duration} хода!")
+        else:
+            # Если у персонажа нет метода apply_silence, просто логируем
+            target.add_log(f"{target.name} сопротивляется эффекту немоты!")

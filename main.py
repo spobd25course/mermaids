@@ -3,7 +3,8 @@ from battle import Battle
 
 
 def create_party():
-    """Создание отряда русалочек"""
+
+
     party = [
         Warrior("Ариэль", 5),
         Mage("Андарина", 5),

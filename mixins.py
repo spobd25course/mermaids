@@ -5,7 +5,6 @@ from datetime import datetime
 
 
 class LoggerMixin:
-    """Миксин для логирования"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -19,7 +18,6 @@ class LoggerMixin:
 
 
 class CritMixin:
-    """Миксин для критического урона"""
 
     def calculate_crit(self, base_damage, crit_chance=0.1):
         import random
@@ -30,7 +28,6 @@ class CritMixin:
 
 
 class SilenceMixin:
-    """Миксин для эффекта немоты"""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

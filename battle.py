@@ -1,6 +1,7 @@
 import random
 import json
 from mixins import LoggerMixin
+from characters import Boss
 
 
 class TurnOrder:
@@ -59,7 +60,7 @@ class Battle(LoggerMixin):
             self.add_log(f"\n--- Ход {character.name} ---")
             character.update_effects()
 
-            if isinstance(character, Boss):
+            if isinstance(character, Boss):  # Теперь Boss будет определен
                 # Босс атакует случайного живого персонажа
                 alive_party = [p for p in self.party if p.is_alive]
                 if alive_party:

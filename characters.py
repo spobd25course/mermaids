@@ -5,7 +5,6 @@ from effects import Effect, Poison, Shield, Regeneration, Silence
 
 
 class Mermaid(LoggerMixin):
-    """Базовый класс русалочки"""
 
     hp = BoundedStat(0, 1000)
     mp = BoundedStat(0, 500)
@@ -61,7 +60,6 @@ class Mermaid(LoggerMixin):
 
 
 class Character(Mermaid, ABC):
-    """Абстрактный класс персонажа"""
 
     def __init__(self, name, level=1):
         super().__init__(name, level)
@@ -78,7 +76,6 @@ class Character(Mermaid, ABC):
         pass
 
     def update_effects(self):
-        """Обновление эффектов в начале хода"""
         new_effects = []
         for effect in self.effects:
             effect.duration -= 1
@@ -93,7 +90,6 @@ class Character(Mermaid, ABC):
 
 
 class Warrior(Character, CritMixin):
-    """Класс воина-русалочки"""
 
     def __init__(self, name, level=1):
         super().__init__(name, level)
@@ -138,7 +134,6 @@ class Warrior(Character, CritMixin):
 
 
 class Mage(Character, CritMixin, SilenceMixin):
-    """Класс мага-русалочки"""
 
     def __init__(self, name, level=1):
         super().__init__(name, level)
@@ -184,7 +179,6 @@ class Mage(Character, CritMixin, SilenceMixin):
 
 
 class Healer(Character, SilenceMixin):
-    """Класс лекаря-русалочки"""
 
     def __init__(self, name, level=1):
         super().__init__(name, level)
@@ -229,7 +223,6 @@ class Healer(Character, SilenceMixin):
 
 
 class BossStrategy(ABC):
-    """Абстрактная стратегия босса"""
 
     @abstractmethod
     def execute(self, boss, targets):
@@ -237,7 +230,6 @@ class BossStrategy(ABC):
 
 
 class AggressiveStrategy(BossStrategy):
-    """Агрессивная стратегия"""
 
     def execute(self, boss, targets):
         boss.add_log("Урсула в ярости! Агрессивная атака!")
@@ -249,7 +241,6 @@ class AggressiveStrategy(BossStrategy):
 
 
 class DefensiveStrategy(BossStrategy):
-    """Защитная стратегия"""
 
     def execute(self, boss, targets):
         boss.add_log("Урсула защищается и лечится!")
@@ -264,7 +255,6 @@ class DefensiveStrategy(BossStrategy):
 
 
 class DebuffStrategy(BossStrategy):
-    """Стратегия наложения дебаффов"""
 
     def execute(self, boss, targets):
         boss.add_log("Урсула насылает проклятие!")
@@ -276,7 +266,6 @@ class DebuffStrategy(BossStrategy):
 
 
 class Boss(Character, CritMixin):
-    """Класс босса Урсулы"""
 
     def __init__(self, name="Урсула", level=10):
         super().__init__(name, level)
